@@ -1,3 +1,4 @@
+import collections
 import base64
 import json
 import sys
@@ -44,8 +45,10 @@ def decode_jwt(jwt_string):
         sys.exit(1)
 
     try:
-        header = json.loads(header)
-        payload = json.loads(payload)
+        # The object_pairs_hook trick keeps the original parameter ordering
+        # http://stackoverflow.com/questions/6921699/can-i-get-json-to-load-into-an-ordereddict-in-python
+        header = json.loads(header, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
     except:
         print('Invalid input, the JWT contains invalid JSON encoded data.')
         sys.exit(1)
