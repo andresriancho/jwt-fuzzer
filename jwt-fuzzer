@@ -1,2 +1,24 @@
 #!/usr/bin/env python
 
+import sys
+import getopt
+
+from jwtfuzzer.fuzzer import jwt_fuzzer
+
+
+def _main():
+    options, remainder = getopt.getopt(sys.argv[1:], 'j:o:', ['jwt=',
+                                                              'output='])
+
+    for opt, arg in options:
+        if opt in ('-o', '--output'):
+            output_filename = arg
+        elif opt in ('-j', '--jwt'):
+            jwt_string = arg
+
+    jwt_fuzzer(jwt_string, output_filename)
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    _main()
