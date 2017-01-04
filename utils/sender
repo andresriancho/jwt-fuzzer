@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+import requests
+import json
+
+
+for fuzzing_data in json.load(open('../out.json')):
+    fuzzing_function = fuzzing_data['fuzzing_function']
+    jwt = fuzzing_data['jwt']
+
+    #
+    #   You might want to edit the following lines in order to define where and how to send
+    #   the fuzzed JWT.
+    #
+    url = 'https://...'
+    cookie = '_utkn=__jwt__'
+
+    response = requests.get(url, headers={'Accept': 'application/json; charset=utf-8',
+                                          'Cookie': cookie.replace('__jwt__', jwt)})
+
+    #
+    #   And maybe this lines to perform a more complex output analysis
+    #
+    print('%s:%s' % (fuzzing_function, response.status_code))
+
