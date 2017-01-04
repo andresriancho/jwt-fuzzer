@@ -18,10 +18,17 @@ def encode_jwt(header, payload, signature):
     :param signature: The signature as a string
     :return: A string created from the three inputs.
     """
-    header_str = base64url_encode(json.dumps(header,
-                                             separators=(',', ':')))
-    payload_str = base64url_encode(json.dumps(payload,
-                                              separators=(',', ':')))
+    if isinstance(header, basestring):
+        header_str = header
+    else:
+        header_str = base64url_encode(json.dumps(header,
+                                                 separators=(',', ':')))
+
+    if isinstance(payload, basestring):
+        payload_str = payload
+    else:
+        payload_str = base64url_encode(json.dumps(payload,
+                                                  separators=(',', ':')))
     signature_str = base64url_encode(signature)
 
     return '.'.join([header_str, payload_str, signature_str])

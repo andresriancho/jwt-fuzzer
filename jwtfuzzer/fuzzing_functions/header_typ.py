@@ -2,7 +2,7 @@ from jwtfuzzer.decoder import decode_jwt
 from jwtfuzzer.encoder import encode_jwt
 
 
-def header_alg_empty(jwt_string):
+def header_typ_empty(jwt_string):
     """
     If the header looks like:
         {
@@ -12,19 +12,19 @@ def header_alg_empty(jwt_string):
 
     The result will look like:
         {
-          "alg": "",
-          "typ": "JWT"
+          "alg": "HS256",
+          "typ": ""
         }
 
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    header['alg'] = ''
+    header['typ'] = ''
     return encode_jwt(header, payload, signature)
 
 
-def header_alg_remove(jwt_string):
+def header_typ_remove(jwt_string):
     """
     If the header looks like:
         {
@@ -34,18 +34,18 @@ def header_alg_remove(jwt_string):
 
     The result will look like:
         {
-          "typ": "JWT"
+          "alg": "HS256",
         }
 
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    del header['alg']
+    del header['typ']
     return encode_jwt(header, payload, signature)
 
 
-def header_alg_null(jwt_string):
+def header_typ_null(jwt_string):
     """
     If the header looks like:
         {
@@ -55,19 +55,19 @@ def header_alg_null(jwt_string):
 
     The result will look like:
         {
-          "typ": "JWT"
-          "alg": null,
+          "alg": "HS256",
+          "typ": null
         }
 
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    header['alg'] = None
+    header['typ'] = None
     return encode_jwt(header, payload, signature)
 
 
-def header_alg_invalid(jwt_string):
+def header_typ_invalid(jwt_string):
     """
     If the header looks like:
         {
@@ -77,19 +77,19 @@ def header_alg_invalid(jwt_string):
 
     The result will look like:
         {
-          "typ": "JWT"
-          "alg": "invalid",
+          "alg": "HS256",
+          "typ": "invalid"
         }
 
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    header['alg'] = 'invalid'
+    header['typ'] = "invalid"
     return encode_jwt(header, payload, signature)
 
 
-def header_alg_none(jwt_string):
+def header_typ_none(jwt_string):
     """
     If the header looks like:
         {
@@ -99,13 +99,13 @@ def header_alg_none(jwt_string):
 
     The result will look like:
         {
-          "typ": "JWT"
-          "alg": "none",
+          "typ": "none"
+          "alg": "HS256",
         }
 
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    header['alg'] = 'none'
+    header['typ'] = 'none'
     return encode_jwt(header, payload, signature)

@@ -4,10 +4,37 @@ from .fuzzing_functions import (header_alg_empty,
                                 header_alg_remove,
                                 header_alg_null,
                                 header_alg_invalid,
-                                header_alg_none)
+                                header_alg_none,
+                                header_typ_empty,
+                                header_typ_remove,
+                                header_typ_null,
+                                header_typ_invalid,
+                                header_typ_none,
+                                header_remove,
+                                header_is_a_list,
+                                payload_remove,
+                                signature_remove,
+                                signature_zero,
+                                multiple_dots,
+                                all_empty)
 
-FUZZING_FUNCTIONS = [header_alg_empty, header_alg_remove, header_alg_null,
-                     header_alg_invalid, header_alg_none]
+FUZZING_FUNCTIONS = [header_alg_empty,
+                     header_alg_remove,
+                     header_alg_null,
+                     header_alg_invalid,
+                     header_alg_none,
+                     header_typ_empty,
+                     header_typ_remove,
+                     header_typ_null,
+                     header_typ_invalid,
+                     header_typ_none,
+                     header_remove,
+                     header_is_a_list,
+                     payload_remove,
+                     signature_remove,
+                     signature_zero,
+                     multiple_dots,
+                     all_empty]
 
 
 def jwt_fuzzer(jwt_string, output_filename):
