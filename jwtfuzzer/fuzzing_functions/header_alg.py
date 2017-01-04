@@ -91,3 +91,26 @@ def header_alg_invalid(jwt_string):
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = 'invalid'
     return encode_jwt(header, payload, signature)
+
+
+def header_alg_none(jwt_string):
+    """
+    If the header looks like:
+        {
+            "alg": "HS256",
+            "typ": "JWT"
+        }
+
+    The result will look like:
+        {
+          "typ": "JWT"
+          "alg": "none",
+        }
+
+    :param jwt_string: The JWT as a string
+    :param output: The file where the modified JWT is written to
+    :return: The fuzzed JWT
+    """
+    header, payload, signature = decode_jwt(jwt_string)
+    header['alg'] = 'none'
+    return encode_jwt(header, payload, signature)
