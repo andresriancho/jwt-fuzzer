@@ -6,7 +6,7 @@ multiple, potentially invalid, strings from an initial [JSON Web Token](https://
 # Usage
 
 ```
-$ ./jwt-fuzzer --jwt={JSON Web Token} --output out.jwt
+$ ./jwt-fuzzer --jwt={JSON Web Token} --output out.json
 Generating test JSON Web Tokens...
 Done!
 ```
