@@ -109,3 +109,30 @@ def header_alg_none(jwt_string):
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = 'none'
     return encode_jwt(header, payload, signature)
+
+
+def header_alg_none_empty_sig(jwt_string):
+    """
+    If the header looks like:
+        {
+            "alg": "HS256",
+            "typ": "JWT"
+        }
+
+    The result will look like:
+        {
+          "typ": "JWT"
+          "alg": "none",
+        }
+
+    We also remove the signature
+
+    Exactly as described in https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/
+
+    :param jwt_string: The JWT as a string
+    :return: The fuzzed JWT
+    """
+    header, payload, signature = decode_jwt(jwt_string)
+    header['alg'] = 'none'
+    signature = ''
+    return encode_jwt(header, payload, signature)
