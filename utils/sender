@@ -3,6 +3,11 @@
 import requests
 import json
 
+proxies = {
+  'http': 'http://127.0.0.1:8080',
+  'https': 'http://127.0.0.1:8080',
+}
+
 
 for fuzzing_data in json.load(open('../out.json')):
     fuzzing_function = fuzzing_data['fuzzing_function']
@@ -12,14 +17,16 @@ for fuzzing_data in json.load(open('../out.json')):
     #   You might want to edit the following lines in order to define where and how to send
     #   the fuzzed JWT.
     #
-    url = 'https://...'
-    cookie = '_utkn=__jwt__'
+    url = 'https://xyz.com'
 
-    response = requests.get(url, headers={'Accept': 'application/json; charset=utf-8',
-                                          'Cookie': cookie.replace('__jwt__', jwt)})
+    headers = {'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Origin': 'https://xyz.com',
+               'Cookie': 'SB_SID = %s' % jwt}
+
+    response = requests.get(url, headers=headers, proxies=proxies, verify=False)
 
     #
     #   And maybe this lines to perform a more complex output analysis
     #
     print('%s:%s' % (fuzzing_function, response.status_code))
-
