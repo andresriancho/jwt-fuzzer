@@ -22,3 +22,15 @@ def signature_zero(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     return encode_jwt(header, payload, '\0')
+
+
+def signature_reverse(jwt_string):
+    """
+    Reverse the signature string
+
+    :param jwt_string: The JWT as a string
+    :return: The fuzzed JWT
+    """
+    header, payload, signature = decode_jwt(jwt_string)
+    signature = signature[::-1]
+    return encode_jwt(header, payload, signature)

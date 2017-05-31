@@ -15,6 +15,7 @@ from .fuzzing_functions import (header_alg_empty,
                                 payload_remove,
                                 signature_remove,
                                 signature_zero,
+                                signature_reverse,
                                 multiple_dots,
                                 all_empty)
 
@@ -33,6 +34,7 @@ FUZZING_FUNCTIONS = [header_alg_empty,
                      payload_remove,
                      signature_remove,
                      signature_zero,
+                     signature_reverse,
                      multiple_dots,
                      all_empty]
 
