@@ -99,8 +99,8 @@ def header_typ_none(jwt_string):
 
     The result will look like:
         {
-          "typ": "none"
           "alg": "HS256",
+          "typ": "none"
         }
 
     :param jwt_string: The JWT as a string
