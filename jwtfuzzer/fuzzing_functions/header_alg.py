@@ -182,6 +182,14 @@ def header_alg_all_possible_values(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
 
-    for alg in VALID_ALGS:
+    original_alg = header['alg']
+    valid_algs = VALID_ALGS[:]
+
+    # We want to yield different things, if we don't remove the original
+    # alg we'll be yielding the exact same JWT
+    if original_alg in valid_algs:
+        valid_algs.remove(original_alg)
+
+    for alg in valid_algs:
         header['alg'] = alg
         yield encode_jwt(header, payload, signature)
