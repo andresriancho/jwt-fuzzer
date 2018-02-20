@@ -14,6 +14,8 @@ from .fuzzing_functions import (header_alg_empty,
                                 header_remove,
                                 header_is_a_list,
                                 payload_remove,
+                                payload_remove_key_value,
+                                payload_add_space_to_value,
                                 signature_remove,
                                 signature_zero,
                                 signature_reverse,
@@ -34,6 +36,8 @@ FUZZING_FUNCTIONS = [header_alg_empty,
                      header_remove,
                      header_is_a_list,
                      payload_remove,
+                     payload_remove_key_value,
+                     payload_add_space_to_value,
                      signature_remove,
                      signature_zero,
                      signature_reverse,
@@ -54,10 +58,12 @@ def jwt_fuzzer(jwt_string, output_filename):
     output_data = [dict(fuzzing_function=None, jwt=jwt_string)]
 
     for fuzzing_function in FUZZING_FUNCTIONS:
-        fuzzed_string = fuzzing_function(jwt_string)
+        for i, fuzzed_string in enumerate(fuzzing_function(jwt_string)):
 
-        output_data.append(dict(fuzzing_function=fuzzing_function.__name__,
-                                jwt=fuzzed_string))
+            fuzzing_function_id = '%s-%s' % (fuzzing_function.__name__, i)
+
+            output_data.append(dict(fuzzing_function=fuzzing_function_id,
+                                    jwt=fuzzed_string))
 
     output = file(output_filename, 'w')
     json.dump(output_data, output, indent=4)

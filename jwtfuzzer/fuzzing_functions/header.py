@@ -10,7 +10,7 @@ def header_remove(jwt_string):
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    return encode_jwt('', payload, signature)
+    yield encode_jwt('', payload, signature)
 
 
 def header_is_a_list(jwt_string):
@@ -21,4 +21,4 @@ def header_is_a_list(jwt_string):
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    return encode_jwt([], payload, signature)
+    yield encode_jwt([], payload, signature)

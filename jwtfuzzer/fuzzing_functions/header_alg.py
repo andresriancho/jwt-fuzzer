@@ -21,7 +21,7 @@ def header_alg_empty(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = ''
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_alg_remove(jwt_string):
@@ -42,7 +42,7 @@ def header_alg_remove(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     del header['alg']
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_alg_null(jwt_string):
@@ -64,7 +64,7 @@ def header_alg_null(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = None
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_alg_invalid(jwt_string):
@@ -86,7 +86,7 @@ def header_alg_invalid(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = 'invalid'
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_alg_none(jwt_string):
@@ -108,7 +108,7 @@ def header_alg_none(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = 'none'
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_alg_none_empty_sig(jwt_string):
@@ -135,4 +135,4 @@ def header_alg_none_empty_sig(jwt_string):
     header, payload, signature = decode_jwt(jwt_string)
     header['alg'] = 'none'
     signature = ''
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)

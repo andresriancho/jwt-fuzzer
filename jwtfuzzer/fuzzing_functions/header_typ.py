@@ -21,7 +21,7 @@ def header_typ_empty(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['typ'] = ''
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_typ_remove(jwt_string):
@@ -42,7 +42,7 @@ def header_typ_remove(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     del header['typ']
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_typ_null(jwt_string):
@@ -64,7 +64,7 @@ def header_typ_null(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['typ'] = None
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_typ_invalid(jwt_string):
@@ -86,7 +86,7 @@ def header_typ_invalid(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['typ'] = "invalid"
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)
 
 
 def header_typ_none(jwt_string):
@@ -108,4 +108,4 @@ def header_typ_none(jwt_string):
     """
     header, payload, signature = decode_jwt(jwt_string)
     header['typ'] = 'none'
-    return encode_jwt(header, payload, signature)
+    yield encode_jwt(header, payload, signature)

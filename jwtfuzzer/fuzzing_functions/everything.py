@@ -8,7 +8,7 @@ def all_empty(jwt_string):
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
-    return encode_jwt('', '', '')
+    yield encode_jwt('', '', '')
 
 
 def multiple_dots(jwt_string):
@@ -16,4 +16,4 @@ def multiple_dots(jwt_string):
     :param jwt_string: The JWT as a string
     :return: The fuzzed JWT
     """
-    return '..................'
+    yield '..................'
