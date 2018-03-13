@@ -4,3 +4,8 @@ from .header import *
 from .payload import *
 from .signature import *
 from .everything import *
+from .header_kid import *
+from .payload_expired import *
+from .payload_aud import *
+from .payload_iss import *
+

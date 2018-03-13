@@ -41,7 +41,14 @@ def header_typ_remove(jwt_string):
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    del header['typ']
+
+    try:
+        del header['typ']
+    except KeyError:
+        # Some JWT implementations, such as the one used by Google, doesn't
+        # send the typ header parameter
+        return
+
     yield encode_jwt(header, payload, signature)
 
 
@@ -85,7 +92,7 @@ def header_typ_invalid(jwt_string):
     :return: The fuzzed JWT
     """
     header, payload, signature = decode_jwt(jwt_string)
-    header['typ'] = "invalid"
+    header['typ'] = 'invalid'
     yield encode_jwt(header, payload, signature)
 
 
