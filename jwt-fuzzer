@@ -6,15 +6,47 @@ import getopt
 from jwtfuzzer.fuzzer import jwt_fuzzer
 
 
+USAGE = '''\
+Usage:
+
+    ./jwt-fuzzer --jwt=<jwt-as-string> --output=<output.json>
+
+Description:
+
+    Put the JWT string in the `--jwt` parameter and the output file in
+    `--output`, the fuzzer will modify the original JWT and save the
+    results to the output.
+
+Optional:
+
+    Use the `utils/sender` script to send the payloads to the
+    web application and analyze responses. 
+'''
+
+
 def _main():
     options, remainder = getopt.getopt(sys.argv[1:], 'j:o:', ['jwt=',
                                                               'output='])
+
+    jwt_string, output_filename = None, None
 
     for opt, arg in options:
         if opt in ('-o', '--output'):
             output_filename = arg
         elif opt in ('-j', '--jwt'):
             jwt_string = arg
+
+    if jwt_string is None:
+        print('Missing --jwt parameter.')
+        print('')
+        print(USAGE)
+        sys.exit(1)
+
+    if output_filename is None:
+        print('Missing --output parameter.')
+        print('')
+        print(USAGE)
+        sys.exit(1)
 
     jwt_fuzzer(jwt_string, output_filename)
     sys.exit(0)
