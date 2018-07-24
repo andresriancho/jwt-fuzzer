@@ -92,3 +92,4 @@ ENV/
 .idea/
 out.txt
 out.json
+output.json
