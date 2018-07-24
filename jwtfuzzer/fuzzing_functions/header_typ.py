@@ -96,6 +96,34 @@ def header_typ_invalid(jwt_string):
     yield encode_jwt(header, payload, signature)
 
 
+def header_typ_binary_decode_error(jwt_string):
+    """
+    If the header looks like:
+        {
+            "alg": "HS256",
+            "typ": "JWT"
+        }
+
+    The result will look like:
+        {
+          "alg": "HS256",
+          "typ": "\xc3\xb1"
+        }
+
+    In some languages (like python) encoding and decoding strings can be hard
+    and trigger UnicodeDecodeErrors. Try this in a python console:
+
+        >>> str(u'\xc3\xb1')
+        UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)
+
+    :param jwt_string: The JWT as a string
+    :return: The fuzzed JWT
+    """
+    header, payload, signature = decode_jwt(jwt_string)
+    header['typ'] = '\xc3\xb1'
+    yield encode_jwt(header, payload, signature)
+
+
 def header_typ_none(jwt_string):
     """
     If the header looks like:
