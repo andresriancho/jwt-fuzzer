@@ -8,25 +8,37 @@ proxies = {
   'https': 'http://127.0.0.1:8080',
 }
 
+requests.packages.urllib3.disable_warnings()
 
-for fuzzing_data in json.load(open('../out.json')):
+
+for fuzzing_data in json.load(open('../output.json')):
     fuzzing_function = fuzzing_data['fuzzing_function']
     jwt = fuzzing_data['jwt']
 
     #
-    #   You might want to edit the following lines in order to define where and how to send
-    #   the fuzzed JWT.
+    # You might want to edit the following lines in order to define where and how to send
+    # the fuzzed JWT.
     #
-    url = 'https://xyz.com'
+    url = 'https://target.com'
 
-    headers = {'Accept': 'application/json',
-               'Content-Type': 'application/json',
-               'Origin': 'https://xyz.com',
-               'Cookie': 'SB_SID = %s' % jwt}
+    # Note the X-Fuzzing-Function header, this is useful to search your proxy logs to
+    # identify the HTTP request which triggered something interesting
+    headers = {
+        'X-Fuzzing-Function': fuzzing_function,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cookie': 'auth=%s' % jwt
+    }
 
-    response = requests.get(url, headers=headers, proxies=proxies, verify=False)
+    response = requests.get(url, headers=headers, proxies=proxies, verify=False, allow_redirects=False)
 
     #
     #   And maybe this lines to perform a more complex output analysis
     #
-    print('%s:%s' % (fuzzing_function, response.status_code))
+    if response.status_code == 302:
+        success = 'dashboard' in response.headers.get('location')
+    else:
+        success = False
+
+    if success or response.status_code != 302:
+        print('%s:%s:%s' % (fuzzing_function, response.status_code, success))
